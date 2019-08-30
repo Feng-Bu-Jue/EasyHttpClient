@@ -34,7 +34,7 @@ namespace EasyHttpClient.Proxy
         public ProxyMethodExecutor(EasyClientConfig config)
         {
             _config = config;
-
+            _httpClient = _config.HttpClientProvider.GetClient(config.HttpClientSettings, config.HttpClientSettings.DelegatingHandlers.Select(x => x.Invoke()).ToArray());
         }
 
         private async Task<HttpResponseMessage> DoSendHttpRequestAsync(HttpClient httpClient, ActionContext actionContext)
