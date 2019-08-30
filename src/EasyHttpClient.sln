@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyHttpClient", "EasyHttpClient\EasyHttpClient.csproj", "{72F42C9D-3FAC-4225-9F1A-DDC1E110FFDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyHttpClient", "EasyHttpClient\EasyHttpClient.csproj", "{72F42C9D-3FAC-4225-9F1A-DDC1E110FFDD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTest", "XUnitTest\XUnitTest.csproj", "{7ED58DD5-9213-4CE6-AD28-2955573F3DC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyHttpClient.Extensions.Autofac", "EasyHttpClient.Extensions.Autofac\EasyHttpClient.Extensions.Autofac.csproj", "{FB80DF30-9C1A-4FF8-BCC1-B3EBACDAF620}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7ED58DD5-9213-4CE6-AD28-2955573F3DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ED58DD5-9213-4CE6-AD28-2955573F3DC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ED58DD5-9213-4CE6-AD28-2955573F3DC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB80DF30-9C1A-4FF8-BCC1-B3EBACDAF620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB80DF30-9C1A-4FF8-BCC1-B3EBACDAF620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB80DF30-9C1A-4FF8-BCC1-B3EBACDAF620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB80DF30-9C1A-4FF8-BCC1-B3EBACDAF620}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

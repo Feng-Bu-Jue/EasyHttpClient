@@ -8,10 +8,7 @@ namespace EasyHttpClient
 {
     public class EasyHttpClientFactory
     {
-        public IHttpClientProvider HttpClientProvider { get; set; } = new DefaultHttpClientProvider();
-
         public EasyClientConfig Config { get; set; } = new EasyClientConfig();
-
 
         public T Create<T>(string host)
         {
@@ -26,7 +23,6 @@ namespace EasyHttpClient
 
         public T Create<T>()
         {
-            Config.HttpClient = HttpClientProvider.GetClient(Config.HttpClientSettings, Config.HttpClientSettings.DelegatingHandlers.Select(i => i()).ToArray());
             var methodExcutor = new ProxyMethodExecutor(Config);
             IProxyFactory proxyFactory;
 #if NET472
@@ -34,7 +30,8 @@ namespace EasyHttpClient
 #else
             proxyFactory = new ReflectionProxyFactory();
 #endif
-            return proxyFactory.Create<T>(new ProxyMethodExecutor(Config));
+            return proxyFactory.Create<T>(methodExcutor);
         }
+
     }
 }

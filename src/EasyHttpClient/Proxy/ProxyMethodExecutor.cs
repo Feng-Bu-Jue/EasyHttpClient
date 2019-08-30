@@ -29,17 +29,19 @@ namespace EasyHttpClient.Proxy
         private RoutePrefixAttribute _routePrefixAttribute;
 
         private readonly EasyClientConfig _config;
+        private readonly HttpClient _httpClient;
 
         public ProxyMethodExecutor(EasyClientConfig config)
         {
             _config = config;
+
         }
 
         private async Task<HttpResponseMessage> DoSendHttpRequestAsync(HttpClient httpClient, ActionContext actionContext)
         {
             try
             {
-                actionContext.HttpResponseMessage = await httpClient.SendAsync(actionContext.HttpRequestMessage, actionContext.CancellationToken.Token);
+                actionContext.HttpResponseMessage = await httpClient.SendAsync(actionContext.HttpRequestMessage, actionContext.CancellationToken.Token).ConfigureAwait(false);
                 return actionContext.HttpResponseMessage;
             }
             catch (OperationCanceledException ex)
@@ -138,7 +140,7 @@ namespace EasyHttpClient.Proxy
                         if (actionContext.MethodDescription.AuthorizeRequired && _config.HttpClientSettings.OAuth2ClientHandler != null)
                         {
                             httpRequestTask = _config.HttpClientSettings.OAuth2ClientHandler.SetAccessToken(actionContext.HttpRequestMessage)
-                                .Then(() => DoSendHttpRequestAsync(_config.HttpClient, actionContext))
+                                .Then(() => DoSendHttpRequestAsync(_httpClient, actionContext))
                                 .Then(async response =>
                                 {
                                     if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -146,7 +148,7 @@ namespace EasyHttpClient.Proxy
                                         actionContext.HttpRequestMessage = actionContext.HttpRequestMessageBuilder.Build();
                                         if (await _config.HttpClientSettings.OAuth2ClientHandler.RefreshAccessToken(actionContext.HttpRequestMessage))
                                         {
-                                            response = await DoSendHttpRequestAsync(_config.HttpClient, actionContext);
+                                            response = await DoSendHttpRequestAsync(_httpClient, actionContext);
                                         }
                                     }
                                     return response;
@@ -154,7 +156,7 @@ namespace EasyHttpClient.Proxy
                         }
                         else
                         {
-                            httpRequestTask = DoSendHttpRequestAsync(_config.HttpClient, actionContext);
+                            httpRequestTask = DoSendHttpRequestAsync(_httpClient, actionContext);
                         }
                         return httpRequestTask;
                     }, (r) => Task.FromResult((int)r.StatusCode > 500 || r.StatusCode == HttpStatusCode.RequestTimeout), actionContext.MethodDescription.MaxRetry)
