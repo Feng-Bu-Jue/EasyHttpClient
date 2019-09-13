@@ -10,12 +10,12 @@ namespace EasyHttpClient
 {
     public interface IHttpClientProvider
     {
-        HttpClient GetClient(HttpClientSettings clientSetting, params DelegatingHandler[] handlers);
+        HttpMessageInvoker GetClient(HttpClientSettings clientSetting, params DelegatingHandler[] handlers);
     }
 
     public class DefaultHttpClientProvider : IHttpClientProvider
     {
-        public virtual HttpClient GetClient(HttpClientSettings clientSetting, params DelegatingHandler[] handlers)
+        public virtual HttpMessageInvoker GetClient(HttpClientSettings clientSetting, params DelegatingHandler[] handlers)
         {
             HttpClient httpClient = null;
             if (clientSetting.AutomaticDecompression)

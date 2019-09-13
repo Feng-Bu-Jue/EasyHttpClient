@@ -29,7 +29,7 @@ namespace EasyHttpClient.Proxy
         private RoutePrefixAttribute _routePrefixAttribute;
 
         private readonly EasyClientConfig _config;
-        private readonly HttpClient _httpClient;
+        private readonly HttpMessageInvoker _httpClient;
 
         public ProxyMethodExecutor(EasyClientConfig config)
         {
@@ -37,7 +37,7 @@ namespace EasyHttpClient.Proxy
             _httpClient = _config.HttpClientProvider.GetClient(config.HttpClientSettings, config.HttpClientSettings.DelegatingHandlers.Select(x => x.Invoke()).ToArray());
         }
 
-        private async Task<HttpResponseMessage> DoSendHttpRequestAsync(HttpClient httpClient, ActionContext actionContext)
+        private async Task<HttpResponseMessage> DoSendHttpRequestAsync(HttpMessageInvoker httpClient, ActionContext actionContext)
         {
             try
             {
