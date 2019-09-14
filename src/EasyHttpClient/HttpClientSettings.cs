@@ -45,6 +45,8 @@ namespace EasyHttpClient
         public JsonSerializerSettings JsonSerializerSettings { get; set; }
         public JsonMediaTypeFormatter JsonMediaTypeFormatter { get; private set; }
         public IHttpResultDecoder HttpResultDecoder { get; set; }
+
+        public Version HttpVersion { get; set; }
         /// <summary>
         /// To handle non json http request parameter datetime formatting, and it can be overrided by [StringFormatAttribute("format")]
         /// </summary>
@@ -61,6 +63,7 @@ namespace EasyHttpClient
             this.ActionFilters = new List<IActionFilter>();
             this.DelegatingHandlers = new List<Func<DelegatingHandler>>();
             this.Timeout = TimeSpan.FromMilliseconds(100000);
+            this.HttpVersion = new Version("1.1");
         }
     }
 }

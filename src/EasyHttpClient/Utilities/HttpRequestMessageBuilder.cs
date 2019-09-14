@@ -54,6 +54,8 @@ namespace EasyHttpClient.Utilities
 
         public List<HttpContent> RawContents { get; set; }
 
+        public Version HttpVersion { get; set; }
+
         //public List<KeyValuePair<string, FileInfo>> Files { get; set; }
 
         public HttpRequestMessageBuilder(HttpMethod httpMethod, UriBuilder uriBuilder, HttpClientSettings httpSettings, bool keepOrginalQueryString)
@@ -82,11 +84,13 @@ namespace EasyHttpClient.Utilities
             //this.StreamBodys = new List<Tuple<string, Stream>>();
             //this.Files = new List<KeyValuePair<string, FileInfo>>();
             this.RawContents = new List<HttpContent>();
+            this.HttpVersion = httpSettings.HttpVersion;
         }
 
         public HttpRequestMessage Build()
         {
             var httpMessage = new HttpRequestMessage(HttpMethod, UriBuilder.Uri);
+            httpMessage.Version = HttpVersion;
 
             if (this.PathParams.Any())
             {
