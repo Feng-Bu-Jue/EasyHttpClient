@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EasyHttpClient.Utilities
@@ -373,11 +374,11 @@ namespace EasyHttpClient.Utilities
         //}
 
 
-        private async Task<HttpResponseMessage> doSendHttpRequestAsync(HttpClient httpClient, ActionContext actionContext)
+        private async Task<HttpResponseMessage> doSendHttpRequestAsync(HttpMessageInvoker httpClient, ActionContext actionContext)
         {
             try
             {
-                actionContext.HttpResponseMessage = await httpClient.SendAsync(actionContext.HttpRequestMessage);
+                actionContext.HttpResponseMessage = await httpClient.SendAsync(actionContext.HttpRequestMessage,CancellationToken.None);
                 return actionContext.HttpResponseMessage;
             }
             catch (HttpRequestException ex)
