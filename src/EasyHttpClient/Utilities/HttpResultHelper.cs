@@ -80,7 +80,6 @@ namespace EasyHttpClient.Utilities
 
                         if (exception != null)
                         {
-                            httpResult.ErrorMessage = await responseMessage.Content.ReadAsStringAsync();
                             responseMessage.Dispose();
                             throw new HttpResultException(httpResult, exception);
                         }
