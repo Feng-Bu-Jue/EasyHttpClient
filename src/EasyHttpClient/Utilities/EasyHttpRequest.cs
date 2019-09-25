@@ -488,7 +488,7 @@ namespace EasyHttpClient.Utilities
                                 .Then(() => doSendHttpRequestAsync(_httpClient, actionContext))
                                 .Then(async response =>
                                 {
-                                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                                    if (this.HttpClientSettings.OAuth2ClientHandler.ValidateUnauthorized(response))
                                     {
                                         actionContext.HttpRequestMessage = actionContext.HttpRequestMessageBuilder.Build();
                                         if (await this.HttpClientSettings.OAuth2ClientHandler.RefreshAccessToken(actionContext.HttpRequestMessage))
