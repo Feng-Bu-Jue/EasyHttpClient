@@ -10,7 +10,7 @@ namespace EasyHttpClient.OAuth2
 {
     public interface IOAuth2ClientHandler
     {
-        bool ValidateUnauthorized(HttpResponseMessage httpResponse);
+        bool IsUnauthorized(HttpResponseMessage httpResponse);
         /// <summary>
         /// Will be invoked by OAuth2Handler when oauth is required
         /// </summary>

@@ -143,7 +143,7 @@ namespace EasyHttpClient.Proxy
                                 .Then(() => DoSendHttpRequestAsync(_httpClient, actionContext))
                                 .Then(async response =>
                                 {
-                                    if (_config.HttpClientSettings.OAuth2ClientHandler.ValidateUnauthorized(response))
+                                    if (_config.HttpClientSettings.OAuth2ClientHandler.IsUnauthorized(response))
                                     {
                                         actionContext.HttpRequestMessage = actionContext.HttpRequestMessageBuilder.Build();
                                         if (await _config.HttpClientSettings.OAuth2ClientHandler.RefreshAccessToken(actionContext.HttpRequestMessage))
