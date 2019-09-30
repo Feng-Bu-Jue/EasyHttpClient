@@ -117,7 +117,7 @@ namespace EasyHttpClient.Proxy
 
             if (args.Count() > 0)
             {
-                var pEnumerator = actionContext.MethodDescription.Parameters.ToList().GetEnumerator();
+                var pEnumerator = actionContext.MethodDescription.Parameters.OrderBy(p=>p.Order).ToList().GetEnumerator();
                 foreach (var arg in args)
                 {
                     pEnumerator.MoveNext();
@@ -215,7 +215,8 @@ namespace EasyHttpClient.Proxy
                             {
                                 ParameterInfo = p,
                                 ScopeAttributes = p.GetCustomAttributes().Where(a => a is IParameterScopeAttribute)
-                                .Cast<IParameterScopeAttribute>().ToArray()
+                                .Cast<IParameterScopeAttribute>().ToArray(),
+                                Order = Array.IndexOf(parameters, p)
                             }).ToList();
 
                         var unhandledPathParamNames = pathParamNames.ToList();
@@ -255,7 +256,8 @@ namespace EasyHttpClient.Proxy
                                     return new ParameterDescription()
                                     {
                                         ParameterInfo = p,
-                                        ScopeAttributes = attrList.ToArray()
+                                        ScopeAttributes = attrList.ToArray(),
+                                        Order = Array.IndexOf(parameters, p)
                                     };
                                 }
                             ).ToList();

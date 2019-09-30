@@ -16,6 +16,8 @@ namespace EasyHttpClient
         internal ParameterDescription()
         {
         }
+
+        public int Order { get; set; }
         public ParameterInfo ParameterInfo { get; internal set; }
         public IParameterScopeAttribute[] ScopeAttributes { get; internal set; }
     }
