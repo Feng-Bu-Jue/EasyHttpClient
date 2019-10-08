@@ -6,6 +6,6 @@ namespace EasyHttpClient.Proxy
 {
     public interface IProxyFactory
     {
-        T Create<T>(ProxyMethodExecutor methodExecutor);
+        T Create<T>(ProxyMethodExecuter executer);
     }
 }

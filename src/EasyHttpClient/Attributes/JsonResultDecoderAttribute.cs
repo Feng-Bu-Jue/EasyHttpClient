@@ -14,7 +14,7 @@ namespace EasyHttpClient.Attributes
 
         public override async Task<object> DecodeAsync(System.Net.Http.HttpContent httpContent, ActionContext actionContext)
         {
-            return await httpContent.ReadAsAsync(actionContext.ReturnTypeDescription.TargetObjectType, new[] { actionContext.HttpClientSettings.JsonMediaTypeFormatter });            
+            return await httpContent.ReadAsAsync(actionContext.ReturnTypeDescription.TargetObjectType, new[] { actionContext.HttpClientSettings.JsonMediaTypeFormatter }).ConfigureAwait(false);            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EasyHttpClient.Attributes;
 using EasyHttpClient.OAuth2;
+using EasyHttpClient.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyHttpClient.Utilities
+namespace EasyHttpClient
 {
     public sealed class EasyHttpRequest
     {
@@ -378,7 +379,7 @@ namespace EasyHttpClient.Utilities
         {
             try
             {
-                actionContext.HttpResponseMessage = await httpClient.SendAsync(actionContext.HttpRequestMessage,CancellationToken.None);
+                actionContext.HttpResponseMessage = await httpClient.SendAsync(actionContext.HttpRequestMessage,CancellationToken.None).ConfigureAwait(false);
                 return actionContext.HttpResponseMessage;
             }
             catch (HttpRequestException ex)
@@ -493,7 +494,7 @@ namespace EasyHttpClient.Utilities
                                         actionContext.HttpRequestMessage = actionContext.HttpRequestMessageBuilder.Build();
                                         if (await this.HttpClientSettings.OAuth2ClientHandler.RefreshAccessToken(actionContext.HttpRequestMessage))
                                         {
-                                            response = await doSendHttpRequestAsync(_httpClient, actionContext);
+                                            response = await doSendHttpRequestAsync(_httpClient, actionContext).ConfigureAwait(false);
                                         }
                                     }
                                     return response;

@@ -44,7 +44,7 @@ namespace EasyHttpClient.Utilities
 
                 if (actionContext.ReturnTypeDescription.HttpResultDecoder!=null && actionContext.ReturnTypeDescription.HttpResultDecoder.CanDecode(responseMessage.Content.Headers))
                 {
-                    httpResult.Content = await actionContext.ReturnTypeDescription.HttpResultDecoder.DecodeAsync(responseMessage.Content, actionContext);
+                    httpResult.Content = await actionContext.ReturnTypeDescription.HttpResultDecoder.DecodeAsync(responseMessage.Content, actionContext).ConfigureAwait(false);
                 }
                 else {
 
@@ -55,21 +55,21 @@ namespace EasyHttpClient.Utilities
                         {
                             if (returnObjectType.IsBulitInType())
                             {
-                                httpResult.Content = ObjectExtensions.ChangeType(await responseMessage.Content.ReadAsStringAsync(), returnObjectType);
+                                httpResult.Content = ObjectExtensions.ChangeType(await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false), returnObjectType);
                                 responseMessage.Dispose();
                             }
                             else if (typeof(Stream).IsAssignableFrom(returnObjectType))
                             {
-                                httpResult.Content = await responseMessage.Content.ReadAsStreamAsync();
+                                httpResult.Content = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
                             }
                             else if (typeof(byte[]) == returnObjectType)
                             {
-                                httpResult.Content = await responseMessage.Content.ReadAsByteArrayAsync();
+                                httpResult.Content = await responseMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                                 responseMessage.Dispose();
                             }
                             else
                             {
-                                httpResult.Content = await DefaultHttpResultDecoder.DecodeAsync(responseMessage.Content, actionContext);                                
+                                httpResult.Content = await DefaultHttpResultDecoder.DecodeAsync(responseMessage.Content, actionContext).ConfigureAwait(false);                                
                                 responseMessage.Dispose();
                             }
                         }
@@ -86,7 +86,7 @@ namespace EasyHttpClient.Utilities
                     }
                     else
                     {
-                        httpResult.ErrorMessage = await responseMessage.Content.ReadAsStringAsync();
+                        httpResult.ErrorMessage = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                         responseMessage.Dispose();
                     }
 

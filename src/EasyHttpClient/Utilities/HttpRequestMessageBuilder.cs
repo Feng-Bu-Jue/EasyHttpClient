@@ -45,18 +45,9 @@ namespace EasyHttpClient.Utilities
         public HttpNameValueCollection QueryStrings { get; private set; }
         public HttpNameValueCollection FormBodys { get; private set; }
         public JToken JsonBody { get; set; }
-
-        /// <summary>
-        /// Tuple (ContentType, Stream)
-        /// </summary>
-        //public List<Tuple<string, Stream>> StreamBodys { get; set; }
-
-
         public List<HttpContent> RawContents { get; set; }
 
         public Version HttpVersion { get; set; }
-
-        //public List<KeyValuePair<string, FileInfo>> Files { get; set; }
 
         public HttpRequestMessageBuilder(HttpMethod httpMethod, UriBuilder uriBuilder, HttpClientSettings httpSettings, bool keepOrginalQueryString)
             :this(httpMethod, uriBuilder, httpSettings)
@@ -81,8 +72,6 @@ namespace EasyHttpClient.Utilities
             this.PathParams = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             this.QueryStrings = new HttpNameValueCollection();
             this.FormBodys = new HttpNameValueCollection();
-            //this.StreamBodys = new List<Tuple<string, Stream>>();
-            //this.Files = new List<KeyValuePair<string, FileInfo>>();
             this.RawContents = new List<HttpContent>();
             this.HttpVersion = httpSettings.HttpVersion;
         }
@@ -129,28 +118,6 @@ namespace EasyHttpClient.Utilities
                             multipleContent.Add(c);
                     }
 
-                    //if (Files != null)
-                    //{
-                    //    foreach (var f in Files)
-                    //    {
-                    //        var content = new StreamContent(f.Value.OpenRead());
-                    //        content.Headers.ContentDisposition = new ContentDispositionHeaderValue(this.MultiPartAttribute.MultiPartType);
-                    //        content.Headers.ContentDisposition.FileName = f.Value.Name;
-                    //        content.Headers.ContentDisposition.Name = f.Key;
-                    //        content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(f.Value.Name));
-                    //        multipleContent.Add(content);
-                    //    }
-                    //}
-                    //if (StreamBodys != null)
-                    //{
-                    //    foreach (var s in StreamBodys)
-                    //    {
-                    //        var content = new StreamContent(s.Item2);
-                    //        content.Headers.ContentType = new MediaTypeHeaderValue(s.Item1);
-                    //        multipleContent.Add(content);
-                    //    }
-                    //}
-
                     httpMessage.Content = multipleContent;
                 }
                 else
@@ -184,22 +151,6 @@ namespace EasyHttpClient.Utilities
                     {
                         httpMessage.Content = RawContents.FirstOrDefault();
                     }
-                    //else if (StreamBodys.Any())
-                    //{
-                    //    var stream = StreamBodys.FirstOrDefault();
-                    //    httpMessage.Content = new StreamContent(stream.Item2);
-                    //    httpMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(stream.Item1);
-                    //}
-                    //else if (Files.Any())
-                    //{
-                    //    var f = Files.FirstOrDefault();
-                    //    var content = new StreamContent(f.Value.OpenRead());
-                    //    content.Headers.ContentDisposition = new ContentDispositionHeaderValue(this.MultiPartAttribute.MultiPartType);
-                    //    content.Headers.ContentDisposition.FileName = f.Value.Name;
-                    //    content.Headers.ContentDisposition.Name = f.Key;
-                    //    content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(f.Value.Name));
-                    //    httpMessage.Content = content;
-                    //}
                 }
 
             }

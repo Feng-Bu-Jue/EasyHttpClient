@@ -15,11 +15,11 @@ namespace EasyHttpClient.Proxy
 
         }
 
-        private ProxyMethodExecutor _methodExecutor;
+        private ProxyMethodExecuter _executer;
 
-        public T Create<T>(ProxyMethodExecutor methodExecutor)
+        public T Create<T>(ProxyMethodExecuter executer)
         {
-            _methodExecutor = methodExecutor;
+            _executer = executer;
 
             return (T)this.GetTransparentProxy(); 
         }
@@ -30,7 +30,7 @@ namespace EasyHttpClient.Proxy
             var methodInfo = methodCall.MethodBase as MethodInfo;
             try
             {
-                var result = _methodExecutor.Excute(methodInfo, methodCall.Args);
+                var result = _executer.Excute(methodInfo, methodCall.Args);
                 return new ReturnMessage(result, new object[0], 0, methodCall.LogicalCallContext, methodCall);
             }
             catch (Exception ex)
@@ -46,7 +46,6 @@ namespace EasyHttpClient.Proxy
         {
 
         }
-        
     }
 }
 #endif

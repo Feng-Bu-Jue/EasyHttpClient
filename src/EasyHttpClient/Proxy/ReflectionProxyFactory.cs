@@ -7,23 +7,23 @@ namespace EasyHttpClient.Proxy
 {
     public class ReflectionProxyFactory : DispatchProxy , IProxyFactory
     {
-        private ProxyMethodExecutor _methodExecutor;
+        private ProxyMethodExecuter _executer;
 
-        public T Create<T>(ProxyMethodExecutor methodExecutor)
+        public T Create<T>(ProxyMethodExecuter executer)
         {
             object instance = Create<T, ReflectionProxyFactory>();
-            ((ReflectionProxyFactory)instance).SetParameters(methodExecutor);
+            ((ReflectionProxyFactory)instance).SetParameters(executer);
             return (T)instance;
         }
 
-        private void SetParameters(ProxyMethodExecutor methodExecutor)
+        private void SetParameters(ProxyMethodExecuter executer)
         {
-            _methodExecutor = methodExecutor;
+            _executer = executer;
         }
 
         protected override object Invoke(MethodInfo targetMethod, object[] args)
         {
-            return _methodExecutor.Excute(targetMethod, args);
+            return _executer.Excute(targetMethod, args);
         }
     }
 }
