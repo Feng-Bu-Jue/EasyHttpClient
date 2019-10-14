@@ -24,14 +24,14 @@ namespace EasyHttpClient
         public T Create<T>()
         {
             ValidateEasyClientConfig();
-            var executer = new ProxyMethodExecuter(Config);
+            var executor = new ProxyMethodExecutor(Config);
             IProxyFactory proxyFactory;
 #if NET472
             proxyFactory = new RealProxyFactory<T>();
 #else
             proxyFactory = new ReflectionProxyFactory();
 #endif
-            return proxyFactory.Create<T>(executer);
+            return proxyFactory.Create<T>(executor);
         }
 
         private void ValidateEasyClientConfig()

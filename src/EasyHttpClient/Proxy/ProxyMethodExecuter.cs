@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace EasyHttpClient.Proxy
 {
-    public class ProxyMethodExecuter
+    public class ProxyMethodExecutor
     {
         const string MsgException = @"{0}: {1}";
         const string MsgMissingSomething = @"{0}: Missing {1}";
@@ -31,7 +31,7 @@ namespace EasyHttpClient.Proxy
         private readonly EasyClientConfig _config;
         private readonly HttpMessageInvoker _httpClient;
 
-        public ProxyMethodExecuter(EasyClientConfig config)
+        public ProxyMethodExecutor(EasyClientConfig config)
         {
             _config = config;
             _httpClient = _config.HttpClientProvider.GetClient(config.HttpClientSettings, config.HttpClientSettings.DelegatingHandlers.Select(x => x.Invoke()).ToArray());
@@ -101,7 +101,7 @@ namespace EasyHttpClient.Proxy
             }
         }
 
-        public object Excute(MethodInfo targetMethod, object[] args)
+        public object Execute(MethodInfo targetMethod, object[] args)
         {
             var actionContext = new ActionContext();
             actionContext.HttpClientSettings = _config.HttpClientSettings;
