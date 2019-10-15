@@ -42,11 +42,12 @@ namespace EasyHttpClient.Utilities
             {
                 httpResult.ContentHeaders = responseMessage.Content.Headers;
 
-                if (actionContext.ReturnTypeDescription.HttpResultDecoder!=null && actionContext.ReturnTypeDescription.HttpResultDecoder.CanDecode(responseMessage.Content.Headers))
+                if (actionContext.ReturnTypeDescription.HttpResultDecoder != null && actionContext.ReturnTypeDescription.HttpResultDecoder.CanDecode(responseMessage.Content.Headers))
                 {
                     httpResult.Content = await actionContext.ReturnTypeDescription.HttpResultDecoder.DecodeAsync(responseMessage.Content, actionContext).ConfigureAwait(false);
                 }
-                else {
+                else
+                {
 
                     if (responseMessage.IsSuccessStatusCode)
                     {
@@ -69,7 +70,7 @@ namespace EasyHttpClient.Utilities
                             }
                             else
                             {
-                                httpResult.Content = await DefaultHttpResultDecoder.DecodeAsync(responseMessage.Content, actionContext).ConfigureAwait(false);                                
+                                httpResult.Content = await DefaultHttpResultDecoder.DecodeAsync(responseMessage.Content, actionContext).ConfigureAwait(false);
                                 responseMessage.Dispose();
                             }
                         }
@@ -80,6 +81,7 @@ namespace EasyHttpClient.Utilities
 
                         if (exception != null)
                         {
+                            httpResult.ErrorMessage = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                             responseMessage.Dispose();
                             throw new HttpResultException(httpResult, exception);
                         }
