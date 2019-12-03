@@ -108,7 +108,9 @@ namespace EasyHttpClient.Utilities
                     }
                     if (JsonBody != null)
                     {
-                        var content = new StringContent(JsonBody.ToString(), Utf8Encoding, "application/json");
+                        var stringWriter = new StringWriter();
+                        this.JsonSerializer.Serialize(stringWriter, JsonBody);
+                        var content = new StringContent(stringWriter.ToString(), Utf8Encoding, "application/json");
                         multipleContent.Add(content);
                     }
 
@@ -141,7 +143,9 @@ namespace EasyHttpClient.Utilities
                     }
                     else if (JsonBody != null)
                     {
-                        httpMessage.Content = new StringContent(JsonBody.ToString(), Utf8Encoding, "application/json");
+                        var stringWriter = new StringWriter();
+                        this.JsonSerializer.Serialize(stringWriter, JsonBody);
+                        httpMessage.Content = new StringContent(stringWriter.ToString(), Utf8Encoding, "application/json");
                         if (httpMessage.Content.Headers != null && httpMessage.Content.Headers.ContentType != null)
                         {
                             httpMessage.Content.Headers.ContentType.CharSet = Utf8Encoding.HeaderName;
